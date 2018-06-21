@@ -1,11 +1,11 @@
 Plugin Opcode SDK
--------------------
+================
 
 This SDK was designed to help third-party plugin opcode development
 either in C or C++. Its only dependency is a Csound installation.
 
 Contents
-===========
+--------------
 
 1. CMake scripts: a CMakeLists.txt containing the basic elements to
 build an opcode. This in turns depends on the FindCsound module,
