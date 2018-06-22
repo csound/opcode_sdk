@@ -60,7 +60,7 @@ static OENTRY localops[] =
    { "mult", sizeof(MULT), 0, 2, "k", "kk",
      NULL, (SUBR) mult_scalar },
    { "mult", sizeof(MULT), 0, 1, "i", "ii",
-        (SUBR) mult_vector, NULL }
+        (SUBR) mult_scalar, NULL }
   };
 
 LINKAGE
