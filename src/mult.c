@@ -53,13 +53,20 @@ int mult_vector(CSOUND *csound, MULT *p) {
   return OK;
 }
 
+/* The mult opcode is overloaded for
+   a, k, and i inputs. For these cases, it is
+   recommended to append an identifier extension .
+   to the name for debugging purposes (not strictly required).
+   For the user, the extension is not used and all 
+   overloads are called "mult"
+*/    
 static OENTRY localops[] =
   {
-   { "mult", sizeof(MULT), 0, 2, "a", "aa",
+   { "mult.aa", sizeof(MULT), 0, 2, "a", "aa",
      NULL, (SUBR) mult_vector },
-   { "mult", sizeof(MULT), 0, 2, "k", "kk",
+   { "mult.kk", sizeof(MULT), 0, 2, "k", "kk",
      NULL, (SUBR) mult_scalar },
-   { "mult", sizeof(MULT), 0, 1, "i", "ii",
+   { "mult.ii", sizeof(MULT), 0, 1, "i", "ii",
         (SUBR) mult_scalar, NULL }
   };
 

@@ -43,9 +43,18 @@ struct Mult : csnd::Plugin<1, 2> {
 };
 
 #include <modload.h>
+
+/* The mult opcode is overloaded for
+   a, k, and i inputs. For these cases, it is
+   recommended to append an identifier extension .
+   to the name for debugging purposes (not strictly required).
+   For the user, the extension is not used and all 
+   overloads are called "mult"
+*/   
 void csnd::on_load(Csound *csound) {
-  csnd::plugin<Mult>(csound, "mult", "k", "kk", csnd::thread::k);
-  csnd::plugin<Mult>(csound, "mult", "i", "ii", csnd::thread::i);
-  csnd::plugin<Mult>(csound, "mult", "a", "aa", csnd::thread::a);
+  csnd::plugin<Mult>(csound, "mult.aa", "a", "aa", csnd::thread::a);
+  csnd::plugin<Mult>(csound, "mult.kk", "k", "kk", csnd::thread::k);
+  csnd::plugin<Mult>(csound, "mult.ii", "i", "ii", csnd::thread::i);
+  csnd::plugin<Mult>(csound, "mult.aa", "a", "aa", csnd::thread::a);
 }
 
