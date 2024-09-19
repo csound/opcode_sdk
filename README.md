@@ -7,6 +7,9 @@ either in C or C++. Its only dependency is a Csound installation.
 Contents
 --------------
 
+Each version of Csound has its own subdirectory (6.x or 7.x). Inside
+these you will see
+
 1. CMake scripts: a CMakeLists.txt containing the basic elements to
 build an opcode. This in turns depends on the FindCsound module,
 which is also provided to discover a Csound installation. The

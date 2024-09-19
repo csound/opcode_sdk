@@ -1,5 +1,5 @@
 /*
-  mult.cpp: simple multiplying opcodes
+  misc.cpp: miscellaneous C++ opcode examples
 
   Copyright (C) 2018 Victor Lazzarini
   This file is part of Csound.
@@ -21,40 +21,48 @@
 */
 
 #include <plugin.h>
+/**
+  Output-only opcode: as expected with zero
+  the input argument array, as it will not be
+  used.
+**/
 
-struct Mult : csnd::Plugin<1, 2> {
-  
+
+struct MidiNote : csnd::Plugin<1, 0> {
   int init() {
-    outargs[0] = inargs[0]*inargs[1];
+    outargs[0] = csound->midi_note_num(this);
     return OK;
   }
+};
 
-  int kperf() {
-    outargs[0] = inargs[0]*inargs[1];
+
+/**
+  Input-only opcode showing how
+  to manipulate input args via the
+  outargs[] array.
+
+  Plugin is instantiated with out args only,
+  zero in the in args.
+
+  But we will use the outargs[] array
+  as our input data.
+
+**/
+
+struct PrintNum : csnd::Plugin<1, 0> {
+  int init() {
+    char a[64];
+    // input arg 1 is placed in outargs[0]
+    sprintf(a, "%f\n", outargs[0]);
+    csound->message(std::string(a));
     return OK;
   }
-  
-  int aperf() {
-    for(int i=offset; i < nsmps; i++)
-      outargs(0)[i] = inargs(0)[i] * inargs(1)[i];	 
-    return OK;
-  }
-  
 };
 
 #include <modload.h>
-
-/* The mult opcode is overloaded for
-   a, k, and i inputs. For these cases, it is
-   recommended to append an identifier extension .
-   to the name for debugging purposes (not strictly required).
-   For the user, the extension is not used and all 
-   overloads are called "mult"
-*/   
 void csnd::on_load(Csound *csound) {
-  csnd::plugin<Mult>(csound, "mult.aa", "a", "aa", csnd::thread::a);
-  csnd::plugin<Mult>(csound, "mult.kk", "k", "kk", csnd::thread::k);
-  csnd::plugin<Mult>(csound, "mult.ii", "i", "ii", csnd::thread::i);
-  csnd::plugin<Mult>(csound, "mult.aa", "a", "aa", csnd::thread::a);
+  // opcode is registered with 0 inputs and 1 output
+  csnd::plugin<MidiNote>(csound, "midinotenum", "i", "", csnd::thread::i);
+  // opcode is registered with 1 input and 0 outputs
+  csnd::plugin<PrintNum>(csound, "printnum", "", "i", csnd::thread::i);
 }
-
